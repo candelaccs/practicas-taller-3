@@ -1,0 +1,67 @@
+program ejercicio1; //<>//
+type
+
+ str27 = string [27];
+ redad = 12..100;
+ 
+ socio = record
+  numero: integer;
+  nombre: str27;
+  edad: redad;
+  
+ arbol = ^nodo;
+ nodo = record;
+  dato: socio;
+  HI: arbol;
+  HD: arbol;
+ end;
+ 
+ 
+procedure crearArbol (var a: arbol);
+ 
+ procedure leer (var s: socio);
+ begin
+  
+  writeln ('ingresar numero de socio');
+  readln (s.numero);
+  if (s.numero <> 0 ) then begin
+   writeln (íngresar un nombre');
+   readln (s.nombre);
+   writeln ('ingresar edad');
+   readln (s.edad);
+  end;
+ end; 
+ 
+ procedure agregar (var a: arbol; s:socio);
+ begin
+
+  if (a = nil) then begin // si el arbol-raiz esta vacio entonces pongo el 1er elemento //
+   new (a);
+   a^.dato:= s; // cargo primer dato //
+   a^.HI:= nil; // pongo hijo izquierdo en nil para dejarlo preparado y que luego pueda recibir un dato //
+   a^.HD:= nil; // lo mismo //
+  end
+  else 
+   if (s.numero <= a^.dato.numero) then
+    agregar (a^.HI, socio)
+   else 
+    agregar (a^.HD, socio);
+ end;
+  
+var 
+ s: socio;
+begin // no deberia ser de forma recursiva esto? //
+ a:= nil;
+ leer(a, s);
+ while (s.numero <> 0) do begin
+  agregar (a, s);
+  leer (s);
+ end;
+end;
+ 
+var
+ a: arbol;
+ 
+begin
+
+ crearArbol (a);
