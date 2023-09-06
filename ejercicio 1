@@ -69,9 +69,51 @@ begin
   if (max = -1) then
    writeln ('la lista esta vacia')
   else
-   writeln ('el numero de socio es' max);
+   writeln ('el numero de socio maximo es' max);
 end;
    
+procedure informarMinimo (a:arbol);
+ 
+ function minimoNodo (a:arbol): arbol;
+ begin
+  if (a = nil) then
+   minimoNodo:= nil; // es lo mismo :=a o :=nil;? //
+  else
+   if (a^.HI = nil) then
+    minimoNodo:= a;
+   else 
+    minimoNodo:= (a^.HI);
+ end; 
+var 
+ a: arbol;
+begin
+ min:= minimoNodo (a);
+ if (min = nil) then
+  writeln ('la lista esta vacia')
+ else begin
+  writeln ('los datos del numero de socio mas chico son:  ');
+  writeln ('el nombre es ', min^.dato.nombre);
+  writeln ('la edad es ', min^.dato.edad);
+  writeln ('el numero de socio es ', min^.dato.numero);
+ end;
+end;
+  
+       
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
 var 
  s: socio;
@@ -90,3 +132,6 @@ var
 begin
 
  crearArbol (a);
+ 
+ informarMaximo (a);
+ informarMinimo (a);
