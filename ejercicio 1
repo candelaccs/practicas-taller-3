@@ -46,8 +46,33 @@ procedure crearArbol (var a: arbol);
     agregar (a^.HI, socio)
    else 
     agregar (a^.HD, socio);
- end;
+ end;               
+ 
+procedure informarMaximo (a: arbol); // es necesario hacer este procedimiento? //
+
+ function maximo (a:arbol): integer;
+ begin
   
+  if (a = nil) then
+   maximo:= -1
+  else
+   if (a^.HD = nil) then
+    maximo:= a^.dato.numero;
+   else
+    maximo (a^.HD);
+ end;
+ 
+var
+ max: integer;
+begin
+  max:= maximo (a);
+  if (max = -1) then
+   writeln ('la lista esta vacia')
+  else
+   writeln ('el numero de socio es' max);
+end;
+   
+    
 var 
  s: socio;
 begin // no deberia ser de forma recursiva esto? //
