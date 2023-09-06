@@ -15,6 +15,7 @@ procedure agregar (var a: arbol; num:integer);
 
 begin
  if (a= nil) then begin
+  new (a);
   a^.dato:= num;
   a^.HI:= nil;
   a^.HD:= nil;
