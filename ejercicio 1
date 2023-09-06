@@ -98,7 +98,25 @@ begin
  end;
 end;
   
-       
+procedure informarMayorEdad (a:arbol);
+
+ procedure edadMayor (a:arbol, var maxsocio: integer maxedad: integer);
+ begin
+  if (a <> nil) then
+   edadMayor (a^.HI, maxsocio, maxedad);
+   if (a^.dato.edad > maxedad) then begin
+    maxedad:= a^.dato.edad;
+    maxsocio:= a^.dato.numero;
+   end;
+   edadMayor (a^.HD, maxsocio,maxedad);
+var
+ maxsocio, maxedad: integer;
+begin
+ maxedad:= -1;
+ maxsocio:= -1;
+ edadMayor (a, maxsocio, maxedad);
+ writeln ('el numero de socio con mayor edad es ', maxsocio);
+end;       
     
     
     
@@ -131,7 +149,11 @@ var
  
 begin
 
- crearArbol (a);
+ crearArbol (a); // se carga el arbol //
  
- informarMaximo (a);
- informarMinimo (a);
+ informarMaximo (a); //informo valor maximo //
+ informarMinimo (a); // informo nodo de minimo //
+ 
+ informarMayorEdad (a); 
+ 
+end. 
