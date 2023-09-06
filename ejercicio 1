@@ -25,7 +25,7 @@ procedure crearArbol (var a: arbol);
   writeln ('ingresar numero de socio');
   readln (s.numero);
   if (s.numero <> 0 ) then begin
-   writeln (íngresar un nombre');
+   writeln ('íngresar un nombre');
    readln (s.nombre);
    writeln ('ingresar edad');
    readln (s.edad);
