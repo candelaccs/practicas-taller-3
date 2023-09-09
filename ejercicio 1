@@ -234,12 +234,24 @@ begin
  
 end;
  
- 
- 
- 
- 
- 
- 
+procedure informarCreciente (a: arbol);
+begin
+ if (a <> nil) then begin
+  informarCreciente (a^.HI);
+  writeln ('numero de socio: ', a^.dato.numero);
+  informarCreciente (a^.HD);
+ end;
+end;
+
+procedure informarDecreciente (a: arbol);
+begin
+ if (a <> nil) then begin
+  informarDecreciente (a^.HD);
+  writeln ('numero de socio: ', a^.dato.numero);
+  informarDecreciente (a^.HI);
+ end;
+end;
+
 var
  a: arbol;
  
@@ -263,6 +275,5 @@ begin
  
  informarCreciente (a); // informa numero de socios en orden creciente
  informarDecreciente (a); // informa numero de socio en orden decreciente //
- 
  
 end. 
