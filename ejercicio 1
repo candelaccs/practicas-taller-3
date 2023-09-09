@@ -1,4 +1,4 @@
-program ejercicio1; //<>//
+program ejercicio1; 
 type
 
  str27 = string [27];
@@ -47,6 +47,16 @@ procedure crearArbol (var a: arbol);
    else 
     agregar (a^.HD, socio);
  end;               
+var 
+ s: socio;
+begin // no deberia ser de forma recursiva esto? // ACTUALIZACION: no es necesario que sea recursivo a no ser que me lo pidan, se sigue usando la manera normal //
+ a:= nil;
+ leer(a, s);
+ while (s.numero <> 0) do begin
+  agregar (a, s);
+  leer (s);
+ end;
+end; 
  
 procedure informarMaximo (a: arbol); // es necesario hacer este procedimiento? //
 
@@ -77,7 +87,7 @@ procedure informarMinimo (a:arbol);
  function minimoNodo (a:arbol): arbol;
  begin
   if (a = nil) then
-   minimoNodo:= nil; // es lo mismo :=a o :=nil;? //
+   minimoNodo:= nil; // es lo mismo :=a o :=nil;? // 
   else
    if (a^.HI = nil) then
     minimoNodo:= a;
@@ -87,6 +97,7 @@ procedure informarMinimo (a:arbol);
 var 
  a: arbol;
 begin
+ // en esta parte se podria poner directamene while min <> nil) //
  min:= minimoNodo (a);
  if (min = nil) then
   writeln ('la lista esta vacia')
@@ -99,50 +110,68 @@ begin
 end;
   
 procedure informarMayorEdad (a:arbol);
-
- procedure edadMayor (a:arbol, var maxsocio: integer maxedad: integer);
+ 
+ procedure maxmayor (var maxedad, maxnumsocio: integer; edad, numsocio: integer);
  begin
-  if (a <> nil) then
-   edadMayor (a^.HI, maxsocio, maxedad);
-   if (a^.dato.edad > maxedad) then begin
-    maxedad:= a^.dato.edad;
-    maxsocio:= a^.dato.numero;
+  if (edad > maxedad) then begin
+    maxedad:= edad;
+    maxnumsocio:= numsocio;
    end;
+ end;
+ procedure edadMayor (a:arbol, var maxnumsocio: integer maxedad: integer);
+ begin
+  if (a <> nil) then begin
+   edadMayor (a^.HI, maxsocio, maxedad);
+   maxmayor (maxedad, maxnumsocio, a^.dato.edad, a^.dato.numero);
    edadMayor (a^.HD, maxsocio,maxedad);
+  end;
+ end;
 var
- maxsocio, maxedad: integer;
+ maxnumsocio, maxedad: integer;
 begin
  maxedad:= -1;
- maxsocio:= -1;
- edadMayor (a, maxsocio, maxedad);
+ maxnumsocio:= -1;
+ edadMayor (a, maxnumsocio, maxedad);
  writeln ('el numero de socio con mayor edad es ', maxsocio);
 end;       
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-var 
- s: socio;
-begin // no deberia ser de forma recursiva esto? //
- a:= nil;
- leer(a, s);
- while (s.numero <> 0) do begin
-  agregar (a, s);
-  leer (s);
- end;
+procedure aumentarEdad (a: arbol)   // no es por referencia, averiguar por qué //
+begin
+  if (a <> nil) then begin
+   a^.dato.edad:= a^.dato.edad + 1;
+   aumentarEdad (a^.HI);
+   aumentarEdad (a^.HD);
+  end;
 end;
+
+procedure existeSocio (a: arbol);
+
+ function existencia (a: arbol; num:integer;): boolean;
+ begin
+  if (a = nil) then
+   existencia:= false
+ else
+  if (a^.dato..numero = num) then
+   existencia:= true
+  else
+   if (a^.dato.numero < num) then
+    existencia (a^.HI, num)
+   else
+    existencia (a^.HD, num);
+ end;
+var
+ num: integer;
+begin
+ writeln ('ingrese un valor a buscar');
+ readln (num);
+ 
+ if ((existencia (a, num)) then
+  writeln ('existe un socio con ese numero')
+ else
+  writeln ('no existe un socio con ese numero');
+end;
+    
+    
  
 var
  a: arbol;
@@ -155,5 +184,7 @@ begin
  informarMinimo (a); // informo nodo de minimo //
  
  informarMayorEdad (a); 
+ 
+ existeSocio (a);
  
 end. 
