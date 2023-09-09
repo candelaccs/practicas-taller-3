@@ -8,9 +8,10 @@ type
   numero: integer;
   nombre: str27;
   edad: redad;
-  
+ end;
+ 
  arbol = ^nodo;
- nodo = record;
+ nodo = record
   dato: socio;
   HI: arbol;
   HD: arbol;
@@ -67,7 +68,7 @@ procedure informarMaximo (a: arbol); // es necesario hacer este procedimiento? /
    maximo:= -1
   else
    if (a^.HD = nil) then
-    maximo:= a^.dato.numero;
+    maximo:= a^.dato.numero
    else
     maximo (a^.HD);
  end;
@@ -79,7 +80,7 @@ begin
   if (max = -1) then
    writeln ('la lista esta vacia')
   else
-   writeln ('el numero de socio maximo es' max);
+   writeln ('el numero de socio maximo es', max);
 end;
    
 procedure informarMinimo (a:arbol);
@@ -87,10 +88,10 @@ procedure informarMinimo (a:arbol);
  function minimoNodo (a:arbol): arbol;
  begin
   if (a = nil) then
-   minimoNodo:= nil; // es lo mismo :=a o :=nil;? // 
+   minimoNodo:= nil // es lo mismo :=a o :=nil;? // 
   else
    if (a^.HI = nil) then
-    minimoNodo:= a;
+    minimoNodo:= a
    else 
     minimoNodo:= (a^.HI);
  end; 
@@ -118,7 +119,7 @@ procedure informarMayorEdad (a:arbol);
     maxnumsocio:= numsocio;
    end;
  end;
- procedure edadMayor (a:arbol, var maxnumsocio: integer maxedad: integer);
+ procedure edadMayor (a:arbol; var maxnumsocio, maxedad: integer);
  begin
   if (a <> nil) then begin
    edadMayor (a^.HI, maxsocio, maxedad);
@@ -135,7 +136,7 @@ begin
  writeln ('el numero de socio con mayor edad es ', maxnumsocio);
 end;       
     
-procedure aumentarEdad (a: arbol)   // no es por referencia, averiguar por qué //
+procedure aumentarEdad (a: arbol) ;  // no es por referencia, averiguar por qué //
 begin
   if (a <> nil) then begin
    a^.dato.edad:= a^.dato.edad + 1;
@@ -146,12 +147,12 @@ end;
 
 procedure existeSocio (a: arbol);
 
- function existencia (a: arbol; num:integer;): boolean;
+ function existencia (a: arbol; num:integer): boolean;
  begin
   if (a = nil) then
    existencia:= false
  else
-  if (a^.dato..numero = num) then
+  if (a^.dato.numero = num) then
    existencia:= true
   else
    if (a^.dato.numero < num) then
@@ -165,20 +166,20 @@ begin
  writeln ('ingrese un valor a buscar');
  readln (num);
  
- if ((existencia (a, num)) then
+ if (existencia (a, num)) then
   writeln ('existe un socio con ese numero')
  else
   writeln ('no existe un socio con ese numero');
 end;
     
 procedure existeNombre (a: arbol);
- function existe (a: arbol; nombre: str27;): boolean;
+ function existe (a: arbol; nombre: str27): boolean;
  begin
   if (a = nil) then
-   existe:= false;
+   existe:= false
   else
     if (a^.dato.nombre = nombre) then
-      existe:= true;
+      existe:= true
     else
      existeNombre (a^.HI);
      existeNombre (a^.HD);
