@@ -132,7 +132,7 @@ begin
  maxedad:= -1;
  maxnumsocio:= -1;
  edadMayor (a, maxnumsocio, maxedad);
- writeln ('el numero de socio con mayor edad es ', maxsocio);
+ writeln ('el numero de socio con mayor edad es ', maxnumsocio);
 end;       
     
 procedure aumentarEdad (a: arbol)   // no es por referencia, averiguar por qué //
@@ -171,7 +171,74 @@ begin
   writeln ('no existe un socio con ese numero');
 end;
     
-    
+procedure existeNombre (a: arbol);
+ function existe (a: arbol; nombre: str27;): boolean;
+ begin
+  if (a = nil) then
+   existe:= false;
+  else
+    if (a^.dato.nombre = nombre) then
+      existe:= true;
+    else
+     existeNombre (a^.HI);
+     existeNombre (a^.HD);
+ end;
+var
+ nombre: str27;
+begin
+ writeln ('ingrese un nombre a buscar');
+ readln (nombre);
+ 
+ if (existeNombre (a,nombre)) then
+  writeln ('existe un socio con ese nombre')
+ else
+  writeln ('no existe un socio con ese nombre');
+end;
+ 
+function contar (a: arbol, cont: integer): integer;
+begin
+  if (a <> nil) then begin
+   cont:= cont+1;
+   contar (a^.HI);
+   contar (a^.HD);
+  end; 
+end; 
+ 
+procedure informarCantidadSocios (a: arbol);
+var
+ cont: integer;
+begin
+ cont:= 0;
+ writeln ('la cantidad de socios es', contar (a, cont));
+end;
+ 
+procedure informarPromedio (a: arbol);
+ 
+ function sumar  (a, suma): integer;
+ begin
+  if (a <> nil) then begin
+   suma:= suma + a^.dato.edad;
+   sumar (a^.HI, suma);
+   sumar (a^.HD, suma);
+  end;
+ end;
+var
+ suma, cont, prom: integer;
+begin
+ cont:= 0;
+ suma:= 0;
+ suma:= sumar(a, suma);
+ prom:= suma / (contar (a, cont));
+ 
+ writeln ('la edad promedio de los socios es', prom );
+ 
+end;
+ 
+ 
+ 
+ 
+ 
+ 
  
 var
  a: arbol;
@@ -183,8 +250,19 @@ begin
  informarMaximo (a); //informo valor maximo //
  informarMinimo (a); // informo nodo de minimo //
  
- informarMayorEdad (a); 
+ informarMayorEdad (a); // informo (si  existe) el numero de socio con mayor edad //
  
- existeSocio (a);
+ aumentarEdad (a); // aumenta en un año la edad de todo //
+ 
+ existeSocio (a); // se ingresa un numero de socio y se verifia si existe o no //
+ existeNombre (a); // se ingresa un nombre y se verifica si existe un socio con ese nombre o no //
+ 
+ informarCantidadSocios (a); // cuenta todos los nodos //
+ 
+ informarPromedio (a); // informa la edad promedio de los socios //
+ 
+ informarCreciente (a); // informa numero de socios en orden creciente
+ informarDecreciente (a); // informa numero de socio en orden decreciente //
+ 
  
 end. 
