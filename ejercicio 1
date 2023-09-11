@@ -44,15 +44,15 @@ procedure crearArbol (var a: arbol);
   end
   else 
    if (s.numero <= a^.dato.numero) then
-    agregar (a^.HI, socio)
+    agregar (a^.HI, s)
    else 
-    agregar (a^.HD, socio);
+    agregar (a^.HD, s);
  end;               
 var 
  s: socio;
 begin // no deberia ser de forma recursiva esto? // ACTUALIZACION: no es necesario que sea recursivo a no ser que me lo pidan, se sigue usando la manera normal //
  a:= nil;
- leer(a, s);
+ leer(s);
  while (s.numero <> 0) do begin
   agregar (a, s);
   leer (s);
@@ -88,15 +88,14 @@ procedure informarMinimo (a:arbol);
  function minimoNodo (a:arbol): arbol;
  begin
   if (a = nil) then
-   minimoNodo:= nil // es lo mismo :=a o :=nil;? // 
-  else
-   if (a^.HI = nil) then
+   minimoNodo:= nil ;// es lo mismo :=a o :=nil;? // 
+  if (a^.HI = nil) then
     minimoNodo:= a
-   else 
+  else 
     minimoNodo:= (a^.HI);
  end; 
 var 
- a: arbol;
+ min: arbol;
 begin
  // en esta parte se podria poner directamene while min <> nil) //
  min:= minimoNodo (a);
@@ -122,9 +121,9 @@ procedure informarMayorEdad (a:arbol);
  procedure edadMayor (a:arbol; var maxnumsocio, maxedad: integer);
  begin
   if (a <> nil) then begin
-   edadMayor (a^.HI, maxsocio, maxedad);
+   edadMayor (a^.HI, maxnumsocio, maxedad);
    maxmayor (maxedad, maxnumsocio, a^.dato.edad, a^.dato.numero);
-   edadMayor (a^.HD, maxsocio,maxedad);
+   edadMayor (a^.HD, maxnumsocio,maxedad);
   end;
  end;
 var
@@ -173,6 +172,7 @@ begin
 end;
     
 procedure existeNombre (a: arbol);
+
  function existe (a: arbol; nombre: str27): boolean;
  begin
   if (a = nil) then
@@ -187,21 +187,23 @@ procedure existeNombre (a: arbol);
 var
  nombre: str27;
 begin
+
  writeln ('ingrese un nombre a buscar');
  readln (nombre);
  
- if (existeNombre (a,nombre)) then
+ if (existe (a,nombre)) then
   writeln ('existe un socio con ese nombre')
  else
   writeln ('no existe un socio con ese nombre');
+  
 end;
  
-function contar (a: arbol, cont: integer): integer;
+function contar (a: arbol; cont: real): real;
 begin
   if (a <> nil) then begin
    cont:= cont+1;
-   contar (a^.HI);
-   contar (a^.HD);
+   contar (a^.HI, cont);
+   contar (a^.HD, cont);
   end; 
 end; 
  
@@ -215,7 +217,7 @@ end;
  
 procedure informarPromedio (a: arbol);
  
- function sumar  (a, suma): integer;
+ function sumar  (a: arbol; suma: real): real;
  begin
   if (a <> nil) then begin
    suma:= suma + a^.dato.edad;
@@ -224,12 +226,14 @@ procedure informarPromedio (a: arbol);
   end;
  end;
 var
- suma, cont, prom: integer;
+ suma, cont, prom: real;
 begin
  cont:= 0;
  suma:= 0;
  suma:= sumar(a, suma);
- prom:= suma / (contar (a, cont));
+ cont:= contar (a, cont);
+ 
+ prom:= suma/cont;
  
  writeln ('la edad promedio de los socios es', prom );
  
