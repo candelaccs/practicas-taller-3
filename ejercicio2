@@ -115,7 +115,7 @@ begin
 end;
 
 
-procedure cantidadVendidaArbolUno (a1: arbolUno); // recorre el arbol buscando X codigo, lo encuentra y mientras sea ese codigo, cuenta //
+procedure cantidadVendidaArbolUno (a1: arbolUno); // recorre el arbol buscando X codigo, lo encuentra y mientras sea ese codigo, cuenta // SOLO ME CUENTA UNA SOLA VEZ //
 
  procedure contar (a1: arbolUno; codigo:integer; var cont: integer); // no se puede usar parametros de referencia en una funcion !! // como lo puedo hacer en una funcion?//
  begin
