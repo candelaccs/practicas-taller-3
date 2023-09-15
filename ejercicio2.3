@@ -1,0 +1,221 @@
+program ejercicio2bien;
+const
+ 
+ mdia = 31;
+ mmes = 12;
+
+type
+ 
+ rdia = 1..31;
+ rmes = 1..12;
+ 
+ fecha = record
+  dia: rdia;
+  mes: rmes;
+  anio: integer;
+ end;
+ 
+ venta = record
+  codigo: integer;
+  fecha: fecha;
+  cantidad: integer;
+ end;
+ 
+ arbol = ^nodo;
+ nodo = record
+  dato: venta;
+  HI: arbol;
+  HD: arbol;
+ end;
+ 
+ producto = record
+  codigo: integer;
+  cantidadTotal: integer;
+ end;
+ 
+ 
+ arbol2 = ^nodo2;
+ nodo2 = record
+  dato: producto;
+  HI: arbol2;
+  HD: arbol2;
+ end;
+ 
+procedure crearArboles (var a1: arbol; var a2: arbol2);
+
+ procedure leer (var v: venta);
+ 
+   procedure leerFecha (var fecha: fecha);
+   begin
+    writeln ('ingrese dia');
+    readln (fecha.dia);
+    writeln ('ingrese mes');
+    readln (fecha.mes);
+    writeln ('ingrese año');
+    readln (fecha.anio);
+   end;  
+   
+ begin
+  writeln ('ingrese el codigo del producto');
+  readln (v.codigo);
+  if (v.codigo <> 0) then begin
+   writeln ('ingrese cantidad vendida');
+   readln (v.cantidad);
+   leerFecha (v.fecha);
+  end; 
+ end;
+ 
+ procedure agregarUno (var a1: arbol; v: venta);
+ begin
+  if ( a1 = nil) then begin   
+   new (a1);
+   a1^.dato:= v;
+   a1^.HI:= nil;
+   a1^.HD:= nil;
+  end
+  else
+   if (v.codigo <= a1^.dato.codigo) then
+    agregarUno (a1^.HI, v)
+   else
+    agregarUno (a1^.HD, v);
+ end;   
+  
+ procedure agregarDos (var a2: arbol2; p: producto);
+ begin
+  if (a2 = nil) then begin
+   new (a2);
+   a2^.dato:= p;
+   a2^.HI:= nil;
+   a2^.HD:= nil;
+  end
+  else
+   if (p.codigo = a2^.dato.codigo) then
+    a2^.dato.cantidadTotal:= p.cantidadTotal + a2^.dato.cantidadTotal
+   else 
+    if (p.codigo <= a2^.dato.codigo) then
+     agregarDos (a2^.HI, p)
+    else
+     agregarDos (a2^.HD, p);
+ end; 
+   
+ procedure nuevoArbol (var a2: arbol2; a1: arbol);
+ var
+  p: producto;
+ begin
+  if (a1 <> nil) then begin
+   nuevoArbol (a2,a1^.HI);
+   p.codigo:= a1^.dato.codigo;
+   p.cantidadTotal:= a1^.dato.cantidad;
+   agregarDos (a2,p);
+   nuevoArbol (a2,a1^.HD);
+  end;
+ end;
+   
+ 
+ 
+var
+ v: venta;
+ 
+begin
+
+ a1:= nil;
+ a2:= nil;
+ 
+ leer (v);
+ while (v.codigo <> 0) do begin
+  agregarUno (a1, v);
+  writeln ('------');
+  leer (v)
+ end;
+ 
+ nuevoArbol (a2,a1);
+ 
+end;
+
+
+procedure cantidadVendidaArbolUno (a1: arbol); // recorre el arbol buscando X codigo, lo encuentra y mientras sea ese codigo, cuenta //
+
+ function contar (a1: arbol; codigo: integer): integer;
+ begin
+  if (a1 = nil) then
+   contar:= 0
+  else 
+   if (a1^.dato.codigo = codigo) then
+    contar := a1^.dato.cantidad + contar(a1^.HI, codigo) 
+   else
+    if (a1^.dato.codigo > codigo) then
+     contar (a1^.HI, codigo)
+    else 
+     contar (a1^.HD, codigo);
+ end;   
+  
+var
+  codigo, cont: integer;
+begin
+ 
+ writeln ('ingrese un numero de codigo para buscar en el arbol uno');
+ readln (codigo);
+ cont:= contar (a1, codigo);
+ if (cont = 0) then
+  writeln ('se realizaron 0 ventas con el codigo de producto ', codigo)
+ else
+  writeln ('las ventas realizadas con el codigo de producto ', codigo, 'son ', cont);
+end;
+
+procedure cantidadVendidaArbolDos (a2: arbol2);
+ 
+ function contar (a2: arbol2; codigo: integer): integer;
+ begin
+  if (a2 = nil) then
+   contar:= 0
+  else
+   if (a2^.dato.codigo = codigo) then
+     contar:= a2^.dato.cantidadTotal
+   else
+    if (a2^.dato.codigo > codigo) then
+     contar (a2^.HI, codigo)
+    else
+     contar (a2^.HD, codigo);
+ end;
+var
+ codigo, cont: integer;
+begin
+
+ writeln ('ingrese un umero de codigo para buscar en el arbol dos');
+ readln (codigo);
+ cont:= contar (a2, codigo);
+ 
+ if (cont = 0)then 
+  writeln ('se realizaron 0 ventas con el numero de codigo ', codigo)
+ else
+  writeln ('las ventas realizadas con el codigo ', codigo, 'fueron ', cont);
+ 
+end;
+
+procedure imprimirArbol (a1: arbol);
+begin
+ if (a1 <> nil) then begin
+  imprimirArbol (a1^.HI);
+  writeln (a1^.dato.codigo);
+  writeln (a1^.dato.cantidad);
+  writeln (a1^.dato.fecha.dia);
+  writeln (a1^.dato.fecha.mes);
+  writeln (a1^.dato.fecha.anio);
+  imprimirArbol (a1^.HD);
+ end;
+end;
+
+var // PP //
+ a1: arbol;
+ a2: arbol2;
+begin // PP //
+ 
+ writeln ('a continuacion se pide ingresar las ventas');
+ writeln (' ');
+ crearArboles (a1, a2);
+ 
+ 
+ cantidadVendidaArbolUno (a1);
+ cantidadVendidaArbolDos (a2);
+ 
+end.
