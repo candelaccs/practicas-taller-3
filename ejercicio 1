@@ -154,7 +154,7 @@ procedure existeSocio (a: arbol);
   if (a^.dato.numero = num) then
    existencia:= true
   else
-   if (a^.dato.numero < num) then
+   if (a^.dato.numero > num) then
     existencia (a^.HI, num)
    else
     existencia (a^.HD, num);
