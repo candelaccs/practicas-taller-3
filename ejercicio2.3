@@ -144,9 +144,9 @@ procedure cantidadVendidaArbolUno (a1: arbol); // recorre el arbol buscando X co
     contar := a1^.dato.cantidad + contar(a1^.HI, codigo) 
    else
     if (a1^.dato.codigo > codigo) then
-     contar (a1^.HI, codigo)
+     contar:= contar (a1^.HI, codigo)
     else 
-     contar (a1^.HD, codigo);
+     contar:= contar (a1^.HD, codigo);
  end;   
   
 var
@@ -159,7 +159,7 @@ begin
  if (cont = 0) then
   writeln ('se realizaron 0 ventas con el codigo de producto ', codigo)
  else
-  writeln ('las ventas realizadas con el codigo de producto ', codigo, 'son ', cont);
+  writeln ('las ventas realizadas con el codigo de producto ', codigo, ' son ', cont);
 end;
 
 procedure cantidadVendidaArbolDos (a2: arbol2);
@@ -173,9 +173,9 @@ procedure cantidadVendidaArbolDos (a2: arbol2);
      contar:= a2^.dato.cantidadTotal
    else
     if (a2^.dato.codigo > codigo) then
-     contar (a2^.HI, codigo)
+     contar:= contar (a2^.HI, codigo)
     else
-     contar (a2^.HD, codigo);
+     contar:= contar (a2^.HD, codigo);
  end;
 var
  codigo, cont: integer;
@@ -188,7 +188,7 @@ begin
  if (cont = 0)then 
   writeln ('se realizaron 0 ventas con el numero de codigo ', codigo)
  else
-  writeln ('las ventas realizadas con el codigo ', codigo, 'fueron ', cont);
+  writeln ('las ventas realizadas con el codigo ', codigo, ' fueron ', cont);
  
 end;
 
